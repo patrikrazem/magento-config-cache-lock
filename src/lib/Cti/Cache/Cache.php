@@ -114,7 +114,7 @@ class Cti_Cache_Cache
      *
      * @return bool
      */
-    private function _setRedis ($key = null, $value = null)
+    private function _setRedis ($key = null, $value = null, $expire_time_seconds = 10)
     {
         try {
             if ($this->_useRedis === false) {
@@ -129,7 +129,7 @@ class Cti_Cache_Cache
 
             list ($select_result, $set_result) = $this->_redis->pipeline()
                 ->select($this->_redisDatabase)
-                ->set($key, $value, "NX")
+                ->set($key, $value, "NX", "EX", $expire_time_seconds)
                 ->exec();
 
             return (bool) $set_result;
