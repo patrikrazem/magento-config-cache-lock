@@ -427,10 +427,8 @@ class Mage_Core_Model_App
             $cacheLock = true;
         }
 
-        // If the cache needs to be created
-        if ($cacheLock === false) {
-            // Create a new cache lock
-            $ctiCache->acquireCacheLock();
+        // If the cache needs to be created aquire the lock
+        if ($cacheLock === false && $ctiCache->acquireCacheLock()) {
 
             $this->_config->loadModules();
             if ($this->_config->isLocalConfigLoaded() && !$this->_shouldSkipProcessModulesUpdates()) {

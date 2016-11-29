@@ -127,12 +127,12 @@ class Cti_Cache_Cache
                 throw new Exception('No value was specified.');
             }
 
-            $this->_redis->pipeline()
+            list ($select_result, $set_result) = $this->_redis->pipeline()
                 ->select($this->_redisDatabase)
-                ->set($key, $value)
+                ->set($key, $value, "NX")
                 ->exec();
 
-            return true;
+            return (bool) $set_result;
         } catch (Exception $e) {
             Mage::logException($e);
         }
