@@ -129,7 +129,7 @@ class Cti_Cache_Cache
 
             list ($select_result, $set_result) = $this->_redis->pipeline()
                 ->select($this->_redisDatabase)
-                ->set($key, $value, "NX", "EX", $expire_time_seconds)
+                ->set($key, $value, Array('nx', 'ex'=>$expire_time_seconds))
                 ->exec();
 
             return (bool) $set_result;
